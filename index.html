@@ -326,11 +326,15 @@
           if (status !== kakao.maps.services.Status.OK || !res[0]) return;
           const lat = res[0].y, lng = res[0].x, pos = new kakao.maps.LatLng(lat, lng);
           map.setCenter(pos);
-          new kakao.maps.Marker({ map, position: pos });
           const el = document.createElement('div');
-          el.style.cssText = 'transform:translateY(-54px);background:#505AA7;color:#fff;font-size:13px;font-weight:700;padding:7px 13px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 16px rgba(80,90,167,.45)';
-          el.textContent = '📍 ' + PLACE_NAME;
-          new kakao.maps.CustomOverlay({ map, position: pos, content: el, yAnchor: 1 });
+          el.style.cssText = 'text-align:center;pointer-events:none';
+          el.innerHTML =
+            '<div style="display:inline-block;background:#fff;color:#505AA7;font-size:12.5px;font-weight:800;letter-spacing:-.01em;padding:5px 12px;border-radius:999px;margin-bottom:5px;box-shadow:0 4px 12px rgba(24,27,42,.2);white-space:nowrap;font-family:inherit">' + PLACE_NAME + '</div>' +
+            '<svg width="30" height="38" viewBox="0 0 30 38" style="display:block;margin:0 auto;filter:drop-shadow(0 4px 5px rgba(80,90,167,.45))">' +
+              '<path d="M15 0C6.72 0 0 6.6 0 14.8 0 25.9 15 38 15 38S30 25.9 30 14.8C30 6.6 23.28 0 15 0z" fill="#505AA7"/>' +
+              '<circle cx="15" cy="14.6" r="5.4" fill="#fff"/>' +
+            '</svg>';
+          new kakao.maps.CustomOverlay({ map, position: pos, content: el, yAnchor: 1, xAnchor: 0.5, zIndex: 3 });
           lTmap.href = 'https://tmap.life/route?goalname=' + encodeURIComponent(PLACE_NAME) + '&goalx=' + lng + '&goaly=' + lat;
         });
       });

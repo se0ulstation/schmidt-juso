@@ -324,6 +324,26 @@
         const map = new kakao.maps.Map(document.getElementById('map'), {
           center: new kakao.maps.LatLng(37.5445, 127.0557), level: 3
         });
+        /* 모바일: 스와이프 방향 판별 → 세로=페이지 스크롤(지도 드래그 OFF), 가로=지도 이동, 두 손가락=지도 조작 */
+        if (window.matchMedia('(pointer: coarse)').matches) {
+          const mapEl = document.getElementById('map');
+          let sx = 0, sy = 0, decided = false;
+          mapEl.addEventListener('touchstart', (e) => {
+            if (e.touches.length >= 2) { map.setDraggable(true); decided = true; return; }
+            sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+            decided = false; map.setDraggable(true);
+          }, { passive: true });
+          mapEl.addEventListener('touchmove', (e) => {
+            if (decided || e.touches.length >= 2) return;
+            const dx = Math.abs(e.touches[0].clientX - sx), dy = Math.abs(e.touches[0].clientY - sy);
+            if (dx + dy < 6) return;              // 방향 확정 전엔 대기
+            decided = true;
+            map.setDraggable(dx > dy);            // 가로 우세면 지도 이동, 세로 우세면 지도 고정
+          }, { passive: true });
+          mapEl.addEventListener('touchend', (e) => {
+            if (e.touches.length === 0) { decided = false; map.setDraggable(true); }
+          }, { passive: true });
+        }
         new kakao.maps.services.Geocoder().addressSearch(ROAD_MAIN, (res, status) => {
           if (status !== kakao.maps.services.Status.OK || !res[0]) return;
           const lat = res[0].y, lng = res[0].x, pos = new kakao.maps.LatLng(lat, lng);

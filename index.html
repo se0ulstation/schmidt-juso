@@ -122,6 +122,26 @@
     .copy-btn:active { transform: scale(.94); }
     .copy-btn svg { width: 19px; height: 19px; }
 
+    /* ── 지하철 안내 ───────────────────────────── */
+    .subway {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex; flex-wrap: wrap; gap: 10px 20px;
+    }
+    .subway-row {
+      flex: 1 1 230px;
+      display: flex; align-items: center; gap: 8px; font-size: 14px;
+    }
+    .subway-row .badge {
+      flex: none; width: 66px; height: 22px; padding: 0;
+      border-radius: 999px; color: #fff; font-size: 11.5px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      letter-spacing: -.02em;
+    }
+    .subway-row .txt { color: var(--muted); }
+    .subway-row .txt b { color: var(--text); font-weight: 600; }
+    .subway-row .txt .walk { color: var(--brand); font-weight: 600; }
+
     /* ── Map ───────────────────────────────────── */
     #map { width: 100%; height: 320px; background: var(--brand-050); }
     @media (min-width: 700px) { #map { height: 380px; } }
@@ -203,6 +223,18 @@
           <button class="copy-btn" id="copy" type="button" aria-label="주소 복사">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           </button>
+        </div>
+
+        <!-- 지하철 안내 -->
+        <div class="subway">
+          <div class="subway-row">
+            <span class="badge" style="background:#F5A200">수인분당선</span>
+            <span class="txt"><b>서울숲역</b> 2번 출구 · <span class="walk">도보 3분</span></span>
+          </div>
+          <div class="subway-row">
+            <span class="badge" style="background:#00A84D">2호선</span>
+            <span class="txt"><b>뚝섬역</b> 6번 출구 · <span class="walk">도보 7분</span></span>
+          </div>
         </div>
       </div>
     </div>
